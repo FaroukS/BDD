@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 05 Décembre 2014 à 15:01
+-- Généré le :  Ven 05 Décembre 2014 à 19:06
 -- Version du serveur :  5.5.38
 -- Version de PHP :  5.6.1
 
@@ -49,32 +49,9 @@ CREATE TABLE `booking` (
   `rental_shop` varchar(30) NOT NULL,
   `restitution_shop` varchar(30) NOT NULL,
   `name_movie` varchar(60) NOT NULL,
-  `categorie_movie` enum('Action','Comédie','Aventure','Animation') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `contents_dvd`
---
-
-DROP TABLE IF EXISTS `contents_dvd`;
-CREATE TABLE `contents_dvd` (
-  `id_DVD` int(11) NOT NULL,
-  `id_shop` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `contents_in_dvd`
---
-
-DROP TABLE IF EXISTS `contents_in_dvd`;
-CREATE TABLE `contents_in_dvd` (
-  `id_DVD` int(11) NOT NULL,
-  `id_movie` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `categorie_movie` enum('Action','Comédie','Aventure','Animation') NOT NULL,
+  `type` enum('DVD','VCD','VHS') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -98,21 +75,6 @@ DROP TABLE IF EXISTS `contents_support`;
 CREATE TABLE `contents_support` (
   `id_support` int(11) NOT NULL,
   `id_shop` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `dvd`
---
-
-DROP TABLE IF EXISTS `dvd`;
-CREATE TABLE `dvd` (
-`id_DVD` int(11) NOT NULL,
-  `languages` enum('français','anglais','espagnol','japonais') NOT NULL,
-  `subtitiling` enum('français','anglais','espagnol','japonais') NOT NULL,
-  `type_of_stereo` enum('Dolby Digital','Dolby Digital EX','Dolby Digital Live') NOT NULL,
-  `rental_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -145,7 +107,7 @@ CREATE TABLE `member` (
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
   `adress` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -161,19 +123,6 @@ CREATE TABLE `movie` (
   `production_year` datetime NOT NULL,
   `purchase_date` datetime NOT NULL,
   `categorie` enum('Action','Comédie','Aventure','Animation') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `other_support`
---
-
-DROP TABLE IF EXISTS `other_support`;
-CREATE TABLE `other_support` (
-`id_support` int(11) NOT NULL,
-  `type` enum('VCD','VHS') NOT NULL,
-  `rental_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -225,7 +174,23 @@ CREATE TABLE `shop` (
   `adress_shop` varchar(200) NOT NULL,
   `rental_unit` enum('oui','non') NOT NULL,
   `zone` enum('zone 1','zone 2','zone 3','zone 4') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `support`
+--
+
+DROP TABLE IF EXISTS `support`;
+CREATE TABLE `support` (
+`id_support` int(11) NOT NULL,
+  `type` enum('VCD','VHS') NOT NULL,
+  `rental_number` int(11) NOT NULL,
+  `language` enum('français','anglais','espagnol','japonais') NOT NULL,
+  `subtitling` enum('français','anglais','espagnol','japonais') NOT NULL,
+  `type_stereo` enum('Dolby Digital','Dolby Digital EX') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -256,18 +221,6 @@ ALTER TABLE `booking`
  ADD PRIMARY KEY (`id_booking`);
 
 --
--- Index pour la table `contents_dvd`
---
-ALTER TABLE `contents_dvd`
- ADD PRIMARY KEY (`id_DVD`,`id_shop`), ADD KEY `id_DVD` (`id_DVD`,`id_shop`), ADD KEY `id_shop` (`id_shop`);
-
---
--- Index pour la table `contents_in_dvd`
---
-ALTER TABLE `contents_in_dvd`
- ADD PRIMARY KEY (`id_DVD`,`id_movie`), ADD KEY `id_DVD` (`id_DVD`,`id_movie`), ADD KEY `id_movie` (`id_movie`);
-
---
 -- Index pour la table `contents_in_sup`
 --
 ALTER TABLE `contents_in_sup`
@@ -278,12 +231,6 @@ ALTER TABLE `contents_in_sup`
 --
 ALTER TABLE `contents_support`
  ADD PRIMARY KEY (`id_support`,`id_shop`), ADD KEY `id_support` (`id_support`,`id_shop`), ADD KEY `id_shop` (`id_shop`);
-
---
--- Index pour la table `dvd`
---
-ALTER TABLE `dvd`
- ADD PRIMARY KEY (`id_DVD`);
 
 --
 -- Index pour la table `employee`
@@ -302,12 +249,6 @@ ALTER TABLE `member`
 --
 ALTER TABLE `movie`
  ADD PRIMARY KEY (`id_movie`);
-
---
--- Index pour la table `other_support`
---
-ALTER TABLE `other_support`
- ADD PRIMARY KEY (`id_support`);
 
 --
 -- Index pour la table `plays_in`
@@ -334,6 +275,12 @@ ALTER TABLE `shop`
  ADD PRIMARY KEY (`id_shop`);
 
 --
+-- Index pour la table `support`
+--
+ALTER TABLE `support`
+ ADD PRIMARY KEY (`id_support`);
+
+--
 -- Index pour la table `works_in`
 --
 ALTER TABLE `works_in`
@@ -352,12 +299,7 @@ MODIFY `id_actor` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT pour la table `booking`
 --
 ALTER TABLE `booking`
-MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `dvd`
---
-ALTER TABLE `dvd`
-MODIFY `id_DVD` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `employee`
 --
@@ -367,53 +309,39 @@ MODIFY `id_employee` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT pour la table `member`
 --
 ALTER TABLE `member`
-MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `movie`
 --
 ALTER TABLE `movie`
 MODIFY `id_movie` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `other_support`
---
-ALTER TABLE `other_support`
-MODIFY `id_support` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT pour la table `shop`
 --
 ALTER TABLE `shop`
-MODIFY `id_shop` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id_shop` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `support`
+--
+ALTER TABLE `support`
+MODIFY `id_support` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Contraintes pour les tables exportées
 --
-
---
--- Contraintes pour la table `contents_dvd`
---
-ALTER TABLE `contents_dvd`
-ADD CONSTRAINT `contents_dvd_ibfk_2` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `contents_dvd_ibfk_1` FOREIGN KEY (`id_DVD`) REFERENCES `dvd` (`id_DVD`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `contents_in_dvd`
---
-ALTER TABLE `contents_in_dvd`
-ADD CONSTRAINT `contents_in_dvd_ibfk_2` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `contents_in_dvd_ibfk_1` FOREIGN KEY (`id_DVD`) REFERENCES `dvd` (`id_DVD`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `contents_in_sup`
 --
 ALTER TABLE `contents_in_sup`
 ADD CONSTRAINT `contents_in_sup_ibfk_2` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `contents_in_sup_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `other_support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `contents_in_sup_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `contents_support`
 --
 ALTER TABLE `contents_support`
 ADD CONSTRAINT `contents_support_ibfk_2` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `contents_support_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `other_support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `contents_support_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `plays_in`
