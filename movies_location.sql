@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 05 Décembre 2014 à 19:06
+-- Généré le :  Sam 06 Décembre 2014 à 15:46
 -- Version du serveur :  5.5.38
 -- Version de PHP :  5.6.1
 
@@ -185,7 +185,7 @@ CREATE TABLE `shop` (
 DROP TABLE IF EXISTS `support`;
 CREATE TABLE `support` (
 `id_support` int(11) NOT NULL,
-  `type` enum('VCD','VHS') NOT NULL,
+  `type` enum('DVD','VCD','VHS') NOT NULL,
   `rental_number` int(11) NOT NULL,
   `language` enum('français','anglais','espagnol','japonais') NOT NULL,
   `subtitling` enum('français','anglais','espagnol','japonais') NOT NULL,
