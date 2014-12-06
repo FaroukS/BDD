@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 06 Décembre 2014 à 15:46
+-- Généré le :  Sam 06 Décembre 2014 à 15:53
 -- Version du serveur :  5.5.38
 -- Version de PHP :  5.6.1
 
@@ -123,6 +123,18 @@ CREATE TABLE `movie` (
   `production_year` datetime NOT NULL,
   `purchase_date` datetime NOT NULL,
   `categorie` enum('Action','Comédie','Aventure','Animation') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `occupied`
+--
+
+DROP TABLE IF EXISTS `occupied`;
+CREATE TABLE `occupied` (
+  `id_support` int(11) NOT NULL,
+  `id_booking` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -251,6 +263,12 @@ ALTER TABLE `movie`
  ADD PRIMARY KEY (`id_movie`);
 
 --
+-- Index pour la table `occupied`
+--
+ALTER TABLE `occupied`
+ ADD PRIMARY KEY (`id_support`,`id_booking`), ADD KEY `id_support` (`id_support`,`id_booking`), ADD KEY `id_booking` (`id_booking`);
+
+--
 -- Index pour la table `plays_in`
 --
 ALTER TABLE `plays_in`
@@ -342,6 +360,13 @@ ADD CONSTRAINT `contents_in_sup_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `s
 ALTER TABLE `contents_support`
 ADD CONSTRAINT `contents_support_ibfk_2` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `contents_support_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `occupied`
+--
+ALTER TABLE `occupied`
+ADD CONSTRAINT `occupied_ibfk_2` FOREIGN KEY (`id_booking`) REFERENCES `booking` (`id_booking`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `occupied_ibfk_1` FOREIGN KEY (`id_support`) REFERENCES `support` (`id_support`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `plays_in`
