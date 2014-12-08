@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
-	<title>Movie Rental</title>
+	<title>Movies Rental</title>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -84,8 +84,14 @@
 				
 			$bdd = dbconnect();
 			
+			/*
+echo $rental_shop."<br />";
+			echo $start_date_rental."<br />";
+			echo $movies_name;
+*/
 
-			$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
+			
+$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
 
 
 			$res = mysqli_query($bdd, $request_id_booking);
@@ -101,7 +107,7 @@
 			$lastIdMember = $donnee['AUTO_INCREMENT'];
 
 			
-			$request = "INSERT INTO booking(start_date_rental, id_shop) VALUES('$start_date_rental', '$rental_shop')";
+			$request = "INSERT INTO booking(start_date_rental, rental_shop) VALUES('$start_date_rental', '$rental_shop')";
 			
 			mysqli_query($bdd, $request);
 			
