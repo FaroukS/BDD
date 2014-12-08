@@ -32,8 +32,42 @@
 
 ?>
 
-	<form action="rental.php"	method="post">
+	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"	method="post">
 		<fieldset>
+			<label form="rental_shop">Magasin de location :</label>
+			<select name="rental_shop" id="rental_shop">
+				<?php
+				$bdd = dbconnect();
+				
+				$query = "SELECT name_shop from shop";
+				
+				$result = mysqli_query($bdd, $query);
+				
+				
+				while($shop = mysqli_fetch_assoc($result)){
+					echo"<option value=".$shop["name_shop"].">".$shop["name_shop"]."</option>";
+				}
+				
+				mysqli_close($bdd);
+			?>
+			</select><br />
+			<label form="restitution_shop">Magasin de restitution :</label>
+			<select name="restitution_shop" id="restitution_shop">
+				<?php
+				$bdd = dbconnect();
+				
+				$query = "SELECT name_shop from shop";
+				
+				$result = mysqli_query($bdd, $query);
+				
+				
+				while($shop = mysqli_fetch_assoc($result)){
+					echo"<option value=".$shop["name_shop"].">".$shop["name_shop"]."</option>";
+				}
+				
+				mysqli_close($bdd);
+			?>
+			</select><br />
 			<label for="movies_name">Film :</label>
 			<select name="movies_name" id="movies_name">
 			<?php
@@ -75,17 +109,62 @@
 				<option value="VHS">VHS</option>
 			</select><br />
 			<label for="start_date_rental">Date de location :</label>
-			<input type="text" id="datepicker" /><br />
+			<input type="text" id="datepicker" name="start_date_rental" /><br />
 			<label for="end_date_rental">Date limite de location :</label>
-			<input type="text" id="datepicker2" /><br />
+			<input type="text" id="datepicker2" name="end_date_rental" /><br />
 			<label for="firstname">Prénom :</label>
-			<input type="text" id="firstname" /><br />
+			<input type="text" id="firstname" name="firstname" /><br />
 			<label for="lastname">Nom :</label>
-			<input type="text" id="lastname" /><br />
+			<input type="text" id="lastname" name="lastname" /><br />
+			<label for="adress">Adresse :</label>
+			<input type="text" id="adress" name="adress" /><br />
 			<input type="submit" name="valider" value="Valider" />
 			</fieldset>
 			
 		</fieldset>
 	</form>
+	<?php
+		if(!empty($_POST)){
+			extract($_POST);
+				
+			$bdd = dbconnect();
+			
+			$start_d = $start_date_rental;
+			
+			$start_date_rental = str_replace("/", "-", $start_d);
+			
+			$end_d = $end_date_rental;
+			
+			$end_date_rental = str_replace("/", "-", $end_d);
+			
+			//Recuperation du dernier ID de l'image	
+			$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
+			//$request_id_img = "SELECT IDENT_CURRENT(‘tablename’)";
+			$res = mysqli_query($bdd, $request_id_booking);
+			$donnee = mysqli_fetch_assoc($res);
+			$lastIdBooking = $donnee['AUTO_INCREMENT'];
+			
+			//Recuperation du dernier ID de l'image	
+			$request_id_member = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'member';";
+			//$request_id_img = "SELECT IDENT_CURRENT(‘tablename’)";
+			$res = mysqli_query($bdd, $request_id_member);
+			$donnee = mysqli_fetch_assoc($res);
+			$lastIdMember = $donnee['AUTO_INCREMENT'];
+			
+			$request = "INSERT INTO booking(start_date_rental, end_date_rental, rental_shop, restitution_shop, name_movie, categorie_movie, type) VALUES('$start_date_rental', '$end_date_rental', '$rental_shop', '$restitution_shop', '$movies_name', '$type_movie', '$support_movie')";
+			
+			mysqli_query($bdd, $request);
+			
+			$request = "INSERT INTO member(firstname, lastname, adress) VALUES('$firstname', '$lastname', '$adress')";
+			
+			mysqli_query($bdd, $request);
+			
+			$request = "INSERT INTO reserved(id_booking, id_member) VALUES('$lastIdBooking', '$lastIdMember')";
+			
+			mysqli_query($bdd, $request);
+			
+			mysqli_close($bdd);
+		}
+	?>
 </body>
 </html>
