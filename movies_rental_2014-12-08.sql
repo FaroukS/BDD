@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.38)
 # Database: movies_rental
-# Generation Time: 2014-12-08 15:55:47 +0000
+# Generation Time: 2014-12-08 18:48:47 +0000
 # ************************************************************
 
 
@@ -44,20 +44,25 @@ CREATE TABLE `booking` (
   `start_date_rental` date NOT NULL,
   `end_date_rental` date DEFAULT NULL,
   `id_shop` int(11) NOT NULL,
-  `restitution_shop` varchar(30) DEFAULT '',
+  `id_restitution_shop` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_booking`),
   KEY `booking_shop_fk` (`id_shop`),
+  KEY `booking_shop_restitution_fk` (`id_restitution_shop`),
+  CONSTRAINT `booking_shop_restitution_fk` FOREIGN KEY (`id_restitution_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_shop_fk` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
 
-INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `restitution_shop`)
+INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `id_restitution_shop`)
 VALUES
-	(10,'2014-12-10','2015-01-25',5,'shop 1'),
-	(11,'2014-12-10','2014-12-25',6,'shop 3'),
-	(12,'2014-12-11','2014-12-26',7,'shop 1');
+	(10,'2014-12-10','2014-12-18',5,NULL),
+	(11,'2014-12-10','2014-12-18',6,NULL),
+	(12,'2014-12-11','2014-12-18',7,NULL),
+	(22,'2014-12-25','2014-12-18',5,NULL),
+	(23,'2015-12-25','2014-12-18',5,NULL),
+	(24,'2014-12-02','2014-12-20',8,7);
 
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -180,7 +185,7 @@ CREATE TABLE `member` (
   `lastname` varchar(30) NOT NULL,
   `adress` varchar(200) NOT NULL,
   PRIMARY KEY (`id_member`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
@@ -193,7 +198,10 @@ VALUES
 	(12,'hahahah','hoohohohooh','rue du pÃ¨re noel'),
 	(13,'bdheab','hezkvfh','chkzvch'),
 	(14,'bdheab','hezkvfh','chkzvch'),
-	(15,'bdheab','hezkvfh','chkzvch');
+	(15,'bdheab','hezkvfh','chkzvch'),
+	(16,'Missieu','Nil','Rue du Nil'),
+	(17,'Missieu','Nil 2','bjdskqvbjdksqv'),
+	(18,'Zougouly','ZOUGOULA','1 place zougouland');
 
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -250,7 +258,9 @@ INSERT INTO `occupied` (`id_support`, `id_booking`)
 VALUES
 	(5,10),
 	(8,11),
-	(13,12);
+	(13,12),
+	(5,23),
+	(7,24);
 
 /*!40000 ALTER TABLE `occupied` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -294,7 +304,10 @@ LOCK TABLES `reserved` WRITE;
 INSERT INTO `reserved` (`id_booking`, `id_member`)
 VALUES
 	(10,5),
-	(11,6);
+	(11,6),
+	(22,16),
+	(23,17),
+	(24,18);
 
 /*!40000 ALTER TABLE `reserved` ENABLE KEYS */;
 UNLOCK TABLES;
