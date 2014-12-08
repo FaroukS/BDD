@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.38)
 # Database: movies_rental
-# Generation Time: 2014-12-08 18:48:47 +0000
+# Generation Time: 2014-12-08 22:02:14 +0000
 # ************************************************************
 
 
@@ -43,19 +43,19 @@ CREATE TABLE `booking` (
   `id_booking` int(11) NOT NULL AUTO_INCREMENT,
   `start_date_rental` date NOT NULL,
   `end_date_rental` date DEFAULT NULL,
-  `id_shop` int(11) NOT NULL,
+  `rental_shop` int(11) NOT NULL,
   `id_restitution_shop` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_booking`),
-  KEY `booking_shop_fk` (`id_shop`),
   KEY `booking_shop_restitution_fk` (`id_restitution_shop`),
-  CONSTRAINT `booking_shop_restitution_fk` FOREIGN KEY (`id_restitution_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `booking_shop_fk` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `booking_shop_fk` (`rental_shop`),
+  CONSTRAINT `booking_shop_fk` FOREIGN KEY (`rental_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `booking_shop_restitution_fk` FOREIGN KEY (`id_restitution_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
 
-INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `id_restitution_shop`)
+INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `rental_shop`, `id_restitution_shop`)
 VALUES
 	(10,'2014-12-10','2014-12-18',5,NULL),
 	(11,'2014-12-10','2014-12-18',6,NULL),
