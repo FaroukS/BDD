@@ -42,7 +42,7 @@
 				
 				
 				while($shop = mysqli_fetch_assoc($result)){
-					echo"<option value=\".$shop['id_shop']."\">".$shop['name_shop']."</option>";
+					echo "<option value=\"".$shop['id_shop']."\">".$shop['name_shop']."</option>";
 				}
 				
 				mysqli_close($bdd);
@@ -84,16 +84,6 @@
 				
 			$bdd = dbconnect();
 			
-			/*
-$start_d = $start_date_rental;
-			
-			$start_date_rental = str_replace("/", "-", $start_d);
-			
-			$end_d = $end_date_rental;
-			
-			$end_date_rental = str_replace("/", "-", $end_d);
-*/
-			
 
 			$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
 
@@ -111,9 +101,11 @@ $start_d = $start_date_rental;
 			$lastIdMember = $donnee['AUTO_INCREMENT'];
 
 			
-			$request = "SELECT id_support FROM movie JOIN contents_in_sup USING (id_movie) JOIN support USING (id_support)";
+			$request = "INSERT INTO booking(start_date_rental, id_shop) VALUES('$start_date_rental', '$rental_shop')";
 			
-			$request = "INSERT INTO booking(start_date_rental, end_date_rental, rental_shop, restitution_shop, name_movie, categorie_movie, type) VALUES('$start_date_rental', '$end_date_rental', '$rental_shop', '$restitution_shop', '$movies_name', '$type_movie', '$support_movie')";
+			mysqli_query($bdd, $request);
+			
+			$request = "INSERT INTO occupied(id_support, id_booking) VALUES('$movies_name', '$lastIdBooking')";
 			
 			mysqli_query($bdd, $request);
 			
