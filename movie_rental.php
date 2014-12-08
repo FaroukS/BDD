@@ -8,10 +8,8 @@
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script>
 		$(function() {
-	   	 $( "#datepicker" ).datepicker();
-	  	});
-	  	$(function() {
-	   	 $( "#datepicker2" ).datepicker();
+	   	 $( "#datepicker").datepicker({dateFormat: "yy-mm-dd"});
+	   	 $( "#datepicker2").datepicker({dateFormat: "yy-mm-dd"});
 	  	});
   	</script>
 </head>
@@ -73,13 +71,13 @@
 			<?php
 				$bdd = dbconnect();
 				
-				$query = "SELECT title from movie";
+				$query = "SELECT title FROM movie";
 				
 				$result = mysqli_query($bdd, $query);
 				
 				
 				while($movie = mysqli_fetch_assoc($result)){
-					echo"<option value=".$movie["title"].">".$movie["title"]."</option>";
+					echo "<option value=\"".$movie['title']."\">".$movie['title']."</option>";
 				}
 				
 				mysqli_close($bdd);
@@ -129,13 +127,15 @@
 				
 			$bdd = dbconnect();
 			
-			$start_d = $start_date_rental;
+			/*
+$start_d = $start_date_rental;
 			
 			$start_date_rental = str_replace("/", "-", $start_d);
 			
 			$end_d = $end_date_rental;
 			
 			$end_date_rental = str_replace("/", "-", $end_d);
+*/
 			
 
 			$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
@@ -167,7 +167,7 @@
 			
 			mysqli_close($bdd);
 			
-			echo "La location est enregistré."
+			echo "La location est enregistré.";
 		}
 	?>
 </body>
