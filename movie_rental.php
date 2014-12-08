@@ -9,7 +9,6 @@
 	<script>
 		$(function() {
 	   	 $( "#datepicker").datepicker({dateFormat: "yy-mm-dd"});
-	   	 $( "#datepicker2").datepicker({dateFormat: "yy-mm-dd"});
 	  	});
   	</script>
 </head>
@@ -34,23 +33,6 @@
 		<fieldset>
 			<label form="rental_shop">Magasin de location :</label>
 			<select name="rental_shop" id="rental_shop">
-				<?php
-				$bdd = dbconnect();
-				
-				$query = "SELECT name_shop from shop";
-				
-				$result = mysqli_query($bdd, $query);
-				
-				
-				while($shop = mysqli_fetch_assoc($result)){
-					echo"<option value=".$shop["name_shop"].">".$shop["name_shop"]."</option>";
-				}
-				
-				mysqli_close($bdd);
-			?>
-			</select><br />
-			<label form="restitution_shop">Magasin de restitution :</label>
-			<select name="restitution_shop" id="restitution_shop">
 				<?php
 				$bdd = dbconnect();
 				
@@ -108,8 +90,6 @@
 			</select><br />
 			<label for="start_date_rental">Date de location :</label>
 			<input type="date" id="datepicker" name="start_date_rental" /><br />
-			<label for="end_date_rental">Date limite de location :</label>
-			<input type="date" id="datepicker2" name="end_date_rental" /><br />
 			<label for="firstname">Prénom :</label>
 			<input type="text" id="firstname" name="firstname" /><br />
 			<label for="lastname">Nom :</label>
@@ -153,6 +133,8 @@ $start_d = $start_date_rental;
 			$donnee = mysqli_fetch_assoc($res);
 			$lastIdMember = $donnee['AUTO_INCREMENT'];
 			
+			$request = "SELECT * FROM movie JOIN contents_in_sup USING (id_movie) JOIN support USING (id_support) JOIN occupied USING (id_support) JOIN booking USING (id_booking) WHERE booking.id_movie!=movie.id_movie AND support.type='".$support_movie."' AND movie.title='".$movies_name."' AND end_date_rental IS NOT NULL";
+			
 			$request = "INSERT INTO booking(start_date_rental, end_date_rental, rental_shop, restitution_shop, name_movie, categorie_movie, type) VALUES('$start_date_rental', '$end_date_rental', '$rental_shop', '$restitution_shop', '$movies_name', '$type_movie', '$support_movie')";
 			
 			mysqli_query($bdd, $request);
@@ -167,7 +149,8 @@ $start_d = $start_date_rental;
 			
 			mysqli_close($bdd);
 			
-			echo "La location est enregistré.";
+			echo "La location est enregistrée.";
+			
 		}
 	?>
 </body>

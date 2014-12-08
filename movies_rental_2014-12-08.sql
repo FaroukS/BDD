@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.38)
 # Database: movies_rental
-# Generation Time: 2014-12-08 14:50:12 +0000
+# Generation Time: 2014-12-08 15:55:47 +0000
 # ************************************************************
 
 
@@ -45,22 +45,19 @@ CREATE TABLE `booking` (
   `end_date_rental` date DEFAULT NULL,
   `id_shop` int(11) NOT NULL,
   `restitution_shop` varchar(30) DEFAULT '',
-  `id_movie` int(11) NOT NULL,
   PRIMARY KEY (`id_booking`),
-  KEY `booking_fk` (`id_movie`),
   KEY `booking_shop_fk` (`id_shop`),
-  CONSTRAINT `booking_shop_fk` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `booking_fk` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`) ON DELETE CASCADE
+  CONSTRAINT `booking_shop_fk` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
 
-INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `restitution_shop`, `id_movie`)
+INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `restitution_shop`)
 VALUES
-	(10,'2014-12-10','2015-01-25',5,'shop 1',3),
-	(11,'2014-12-10','2014-12-25',6,'shop 3',4),
-	(12,'2014-12-11','2014-12-26',7,'shop 1',5);
+	(10,'2014-12-10','2015-01-25',5,'shop 1'),
+	(11,'2014-12-10','2014-12-25',6,'shop 3'),
+	(12,'2014-12-11','2014-12-26',7,'shop 1');
 
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
