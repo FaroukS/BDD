@@ -109,9 +109,9 @@
 				<option value="VHS">VHS</option>
 			</select><br />
 			<label for="start_date_rental">Date de location :</label>
-			<input type="text" id="datepicker" name="start_date_rental" /><br />
+			<input type="date" id="datepicker" name="start_date_rental" /><br />
 			<label for="end_date_rental">Date limite de location :</label>
-			<input type="text" id="datepicker2" name="end_date_rental" /><br />
+			<input type="date" id="datepicker2" name="end_date_rental" /><br />
 			<label for="firstname">Prénom :</label>
 			<input type="text" id="firstname" name="firstname" /><br />
 			<label for="lastname">Nom :</label>
@@ -137,16 +137,18 @@
 			
 			$end_date_rental = str_replace("/", "-", $end_d);
 			
-			//Recuperation du dernier ID de l'image	
+
 			$request_id_booking = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'booking';";
-			//$request_id_img = "SELECT IDENT_CURRENT(‘tablename’)";
+
+
 			$res = mysqli_query($bdd, $request_id_booking);
 			$donnee = mysqli_fetch_assoc($res);
 			$lastIdBooking = $donnee['AUTO_INCREMENT'];
 			
-			//Recuperation du dernier ID de l'image	
+
 			$request_id_member = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'movies_rental' AND TABLE_NAME = 'member';";
-			//$request_id_img = "SELECT IDENT_CURRENT(‘tablename’)";
+
+
 			$res = mysqli_query($bdd, $request_id_member);
 			$donnee = mysqli_fetch_assoc($res);
 			$lastIdMember = $donnee['AUTO_INCREMENT'];
@@ -164,6 +166,8 @@
 			mysqli_query($bdd, $request);
 			
 			mysqli_close($bdd);
+			
+			echo "La location est enregistré."
 		}
 	?>
 </body>

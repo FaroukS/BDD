@@ -11,3 +11,5 @@
 4)SELECT firstname, lastname FROM employee JOIN Works_in USING (id_employee) JOIN shop USING (id_shop) WHERE id_shop != (SELECT id_shop AS id_shop_animation FROM movie JOIN contents_in_sup USING (id_movie) JOIN support USING (id_support) JOIN contents_support USING (id_support) JOIN shop USING (id_shop) WHERE categorie = 'animation') AND employee.type ='Director';
 
 5)SELECT firstname, lastname, adress, COUNT(id_booking) AS id_booking_count FROM booking JOIN reserved USING (id_booking) JOIN member USING (id_member) WHERE DATEDIFF(NOW(), 'start_date_rental') < 30 GROUP BY id_member ORDER BY id_booking_count DESC LIMIT 3;
+
+6)SELECT name_shop, firstname, lastname FROM shop JOIN works_in USING (id_shop) JOIN employee USING (id_employee) WHERE type = 'Director';
