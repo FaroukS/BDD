@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.38)
 # Database: movies_rental
-# Generation Time: 2014-12-08 14:32:03 +0000
+# Generation Time: 2014-12-08 14:50:12 +0000
 # ************************************************************
 
 
@@ -43,22 +43,24 @@ CREATE TABLE `booking` (
   `id_booking` int(11) NOT NULL AUTO_INCREMENT,
   `start_date_rental` date NOT NULL,
   `end_date_rental` date DEFAULT NULL,
-  `rental_shop` varchar(30) NOT NULL,
+  `id_shop` int(11) NOT NULL,
   `restitution_shop` varchar(30) DEFAULT '',
   `id_movie` int(11) NOT NULL,
   PRIMARY KEY (`id_booking`),
   KEY `booking_fk` (`id_movie`),
+  KEY `booking_shop_fk` (`id_shop`),
+  CONSTRAINT `booking_shop_fk` FOREIGN KEY (`id_shop`) REFERENCES `shop` (`id_shop`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_fk` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
 
-INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `rental_shop`, `restitution_shop`, `id_movie`)
+INSERT INTO `booking` (`id_booking`, `start_date_rental`, `end_date_rental`, `id_shop`, `restitution_shop`, `id_movie`)
 VALUES
-	(10,'2014-12-10','2015-01-25','shop 1','shop 1',3),
-	(11,'2014-12-10','2014-12-25','shop 2','shop 3',4),
-	(12,'2014-12-11','2014-12-26','shop 3','shop 1',5);
+	(10,'2014-12-10','2015-01-25',5,'shop 1',3),
+	(11,'2014-12-10','2014-12-25',6,'shop 3',4),
+	(12,'2014-12-11','2014-12-26',7,'shop 1',5);
 
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -338,7 +340,6 @@ DROP TABLE IF EXISTS `support`;
 CREATE TABLE `support` (
   `id_support` int(11) NOT NULL AUTO_INCREMENT,
   `type` enum('DVD','VCD','VHS') NOT NULL,
-  `rental_number` int(11) NOT NULL,
   `language` enum('français','anglais','espagnol','japonais') NOT NULL,
   `subtitling` enum('français','anglais','espagnol','japonais') NOT NULL,
   `type_stereo` enum('Dolby Digital','Dolby Digital EX') NOT NULL,
@@ -348,18 +349,18 @@ CREATE TABLE `support` (
 LOCK TABLES `support` WRITE;
 /*!40000 ALTER TABLE `support` DISABLE KEYS */;
 
-INSERT INTO `support` (`id_support`, `type`, `rental_number`, `language`, `subtitling`, `type_stereo`)
+INSERT INTO `support` (`id_support`, `type`, `language`, `subtitling`, `type_stereo`)
 VALUES
-	(5,'DVD',1,'français','français','Dolby Digital'),
-	(6,'VCD',2,'français','français','Dolby Digital'),
-	(7,'VHS',3,'français','français','Dolby Digital'),
-	(8,'DVD',4,'anglais','anglais','Dolby Digital'),
-	(9,'VCD',5,'français','français','Dolby Digital'),
-	(10,'VHS',6,'français','français','Dolby Digital'),
-	(11,'DVD',7,'japonais','japonais','Dolby Digital'),
-	(12,'VCD',8,'français','français','Dolby Digital'),
-	(13,'VHS',9,'français','français','Dolby Digital'),
-	(14,'DVD',10,'espagnol','espagnol','Dolby Digital');
+	(5,'DVD','français','français','Dolby Digital'),
+	(6,'VCD','français','français','Dolby Digital'),
+	(7,'VHS','français','français','Dolby Digital'),
+	(8,'DVD','anglais','anglais','Dolby Digital'),
+	(9,'VCD','français','français','Dolby Digital'),
+	(10,'VHS','français','français','Dolby Digital'),
+	(11,'DVD','japonais','japonais','Dolby Digital'),
+	(12,'VCD','français','français','Dolby Digital'),
+	(13,'VHS','français','français','Dolby Digital'),
+	(14,'DVD','espagnol','espagnol','Dolby Digital');
 
 /*!40000 ALTER TABLE `support` ENABLE KEYS */;
 UNLOCK TABLES;
